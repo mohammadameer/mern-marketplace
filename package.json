@@ -1,8 +1,8 @@
 {
-  "name": "mern-skeleton",
+  "name": "mern-marketplace",
   "version": "1.0.0",
-  "description": "A MERN stack skeleton web application",
-  "author": "Shama Hoque",
+  "description": "A MERN marketplace application",
+  "author": "mohammad ameer",
   "license": "MIT",
   "keywords": [
     "react",
@@ -13,9 +13,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/shamahoque/mern-skeleton.git"
+    "url": "https://github.com/shamahoque/mern-marketplace.git"
   },
-  "homepage": "https://mohammadameer.github.io/mern-skeleton",
+  "homepage": "https://mohammadameer.github.io/mern-marketplace",
   "main": "./dist/server.generated.js",
   "scripts": {
     "development": "nodemon",
