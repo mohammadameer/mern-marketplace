@@ -8,6 +8,11 @@ import Profile from "./user/Profile";
 import EditProfile from "./user/EditProfile";
 import PrivateRoute from "./auth/PrivateRoute";
 import Menu from "./core/Menu";
+import NewShop from "./shop/NewShop";
+import MyShops from "./shop/MyShops";
+import Shops from "./shop/Shops";
+import Shop from "./shop/Shop";
+import EditShop from "./shop/EditShop";
 
 class MainRouter extends Component {
   render() {
@@ -32,6 +37,21 @@ class MainRouter extends Component {
           </Route>
           <PrivateRoute exact path="/user/edit/:userId">
             <EditProfile />
+          </PrivateRoute>
+          <Route exact path="/shops/all">
+            <Shops />
+          </Route>
+          <Route exact path="/shops/:shopId">
+            <Shop />
+          </Route>
+          <PrivateRoute exact path="/shops/edit/:shopId">
+            <EditShop />
+          </PrivateRoute>
+          <PrivateRoute exact path="/seller/shop/new">
+            <NewShop />
+          </PrivateRoute>
+          <PrivateRoute exact path="/seller/shops">
+            <MyShops />
           </PrivateRoute>
         </Switch>
       </Fragment>

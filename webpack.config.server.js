@@ -1,4 +1,6 @@
 const path = require("path");
+const dotenv = require("dotenv").config({ path: __dirname + "./env" });
+const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const CURRENT_WORKING_DIR = process.cwd();
 
@@ -25,7 +27,12 @@ const config = {
         use: "file-loader"
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "proccess.env": dotenv.parsed
+    })
+  ]
 };
 
 module.exports = config;

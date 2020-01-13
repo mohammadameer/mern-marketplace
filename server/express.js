@@ -5,10 +5,13 @@ import compress from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import Template from "../template";
-import userRoutes from "./routes/user.routes";
-import authRoutes from "./routes/auth.routes";
 import devBundle from "./devBundle";
 import path from "path";
+
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
+import shopRoutes from "./routes/shop.routes";
+import productRoutes from "./routes/product.routes";
 
 const CURRENT_WORKING_DIR = process.cwd();
 
@@ -29,6 +32,8 @@ app.use(cors());
 // mount routes
 app.use("/", userRoutes);
 app.use("/", authRoutes);
+app.use("/", shopRoutes);
+app.use("/", productRoutes);
 
 app.get("/*", (req, res) => {
   res.status(200).send(Template());

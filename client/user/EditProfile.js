@@ -11,7 +11,9 @@ import {
   Icon,
   CardActions,
   Button,
-  withStyles
+  withStyles,
+  FormControlLabel,
+  Switch
 } from "@material-ui/core";
 
 const EditProfile = props => {
@@ -19,6 +21,7 @@ const EditProfile = props => {
     name: "",
     email: "",
     password: "",
+    seller: false,
     error: "",
     redirectToProfile: false,
     userId: ""
@@ -39,7 +42,12 @@ const EditProfile = props => {
       { t: jwt.token }
     ).then(user => {
       console.log(user);
-      setState({ ...state, name: user.name, email: user.email });
+      setState({
+        ...state,
+        name: user.name,
+        email: user.email,
+        seller: user.seller
+      });
     });
   }, []);
 
@@ -47,7 +55,8 @@ const EditProfile = props => {
     const user = {
       name: state.name || undefined,
       email: state.email || undefined,
-      password: state.password || undefined
+      password: state.password || undefined,
+      seller: state.seller
     };
 
     update(
@@ -57,9 +66,16 @@ const EditProfile = props => {
       { t: jwt.token },
       user
     ).then(data => {
-      if (data.error) SentimentSatisfied({ ...state, error: error });
-      else setState({ ...state, userId: data._id, redirectToProfile: true });
+      if (data.error) return setState({ ...state, error: data.error });
+
+      auth.updateUser(data, () =>
+        setState({ ...state, userId: data._id, redirectToProfile: true })
+      );
     });
+  };
+
+  const handleCheck = () => {
+    setState({ ...state, seller: !state.seller });
   };
 
   if (state.redirectToProfile) return <Redirect to={"/user/" + state.userId} />;
@@ -96,6 +112,23 @@ const EditProfile = props => {
           value={state.password}
           onChange={handleChange("password")}
           margin="normal"
+        />
+        <Typography
+          type="subheading"
+          component="h4"
+          className={classes.subheading}
+        >
+          Seller Account
+        </Typography>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.seller}
+              onChange={handleCheck}
+              classes={{ checked: classes.checked, bar: classes.bar }}
+            />
+          }
+          label={state.seller ? "Active" : "Inactive"}
         />
         {state.error && (
           <Typography component="p" color="error">
