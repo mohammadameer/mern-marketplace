@@ -8,8 +8,11 @@ import {
   CardContent,
   Typography,
   Button,
-  TextField
+  TextField,
+  CardActions,
+  Icon
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const NewProduct = props => {
   const [state, setState] = useState({
@@ -37,7 +40,7 @@ const NewProduct = props => {
     const product = {
       name: state.name,
       description: state.description,
-      images: state.images,
+      image: state.image,
       category: state.category,
       quantity: state.quantity,
       price: state.price
@@ -51,7 +54,7 @@ const NewProduct = props => {
     });
   };
 
-  if (state.redirect) return <Redirect to={`/shops/edit/${shopId}`} />;
+  if (state.redirect) return <Redirect to={`/seller/shops/edit/${shopId}`} />;
 
   const { classes } = props;
 
@@ -104,14 +107,86 @@ const NewProduct = props => {
             className={classes.textField}
             value={state.category}
             onChange={handleChange("category")}
-          /><br />
-          <TextField id="quantity" label="Quantity" className={classes.textField} value={state.quantity} onChange={handleChange("quantity")} type="number" margin="normal" /><br />
+          />
+          <br />
+          <TextField
+            id="quantity"
+            label="Quantity"
+            className={classes.textField}
+            value={state.quantity}
+            onChange={handleChange("quantity")}
+            type="number"
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="price"
+            label="Price"
+            className={classes.textField}
+            value={state.price}
+            onChange={handleChange("price")}
+            type="number"
+            margin="normal"
+          />{" "}
+          <br />
+          {state.error && (
+            <Typography component="p" color="error">
+              <Icon color="error" className={classes.error}>
+                error
+              </Icon>
+              {state.error}
+            </Typography>
+          )}
         </CardContent>
+        <CardActions>
+          <Button
+            color="primary"
+            variant="raised"
+            onClick={submit}
+            className={classes.submit}
+          >
+            Submit
+          </Button>
+          <Link to={`/sellse/shops/edit/${shopId}`} className={classes.submit}>
+            <Button variant="raised">Cancel</Button>
+          </Link>
+        </CardActions>
       </Card>
     </div>
   );
 };
 
-const styles = theme => ({});
+const styles = theme => ({
+  card: {
+    maxWidth: 600,
+    margin: "auto",
+    textAlign: "center",
+    marginTop: theme.spacing.unit * 5,
+    paddingBottom: theme.spacing.unit * 2
+  },
+  error: {
+    verticalAlign: "middle"
+  },
+  title: {
+    marginTop: theme.spacing.unit * 2,
+    color: theme.palette.openTitle,
+    fontSize: "1.2em"
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 300
+  },
+  submit: {
+    margin: "auto",
+    marginBottom: theme.spacing.unit * 2
+  },
+  input: {
+    display: "none"
+  },
+  filename: {
+    marginLeft: "10px"
+  }
+});
 
 export default withStyles(styles)(NewProduct);

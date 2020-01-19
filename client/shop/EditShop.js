@@ -15,6 +15,8 @@ import {
   CardActions
 } from "@material-ui/core";
 
+import MyProducts from "../product/MyProducts";
+
 const EditShop = props => {
   const [state, setState] = useState({
     id: "",
@@ -145,9 +147,9 @@ const EditShop = props => {
             </CardActions>
           </Card>
         </Grid>
-        {/* <Grid item xs={6} sm={6}>
+        <Grid item xs={6} sm={6}>
           <MyProducts shopId={shopId} />
-        </Grid> */}
+        </Grid>
       </Grid>
     </div>
   );

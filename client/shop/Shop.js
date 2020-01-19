@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { read } from "./shop-api";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import {
   withStyles,
   Grid,
@@ -9,10 +9,14 @@ import {
   Typography,
   Avatar
 } from "@material-ui/core";
+import { listByShop } from "../product/product-api";
+
+import Products from "../product/Products";
 
 const Shop = props => {
   const [state, setState] = useState({
     shop: {},
+    products: [],
     error: ""
   });
 
@@ -24,6 +28,11 @@ const Shop = props => {
     }).then(data => {
       if (data.error) return setState({ ...state, error: data.error });
       setState({ ...state, shop: data });
+    });
+
+    listByShop({ shopId }).then(data => {
+      if (data.error) return setState({ ...state, error: data.error });
+      setState({ ...state, products: data });
     });
   }, []);
 
@@ -63,7 +72,7 @@ const Shop = props => {
             >
               Products
             </Typography>
-            {/* <Products products={state.products} searched={false} /> */}
+            <Products products={state.products} searched={false} />
           </Card>
         </Grid>
       </Grid>

@@ -35,7 +35,7 @@ app.use("/", authRoutes);
 app.use("/", shopRoutes);
 app.use("/", productRoutes);
 
-app.get("/*", (req, res) => {
+app.get("*", (req, res) => {
   res.status(200).send(Template());
 });
 

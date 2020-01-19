@@ -41,7 +41,6 @@ const EditProfile = props => {
       },
       { t: jwt.token }
     ).then(user => {
-      console.log(user);
       setState({
         ...state,
         name: user.name,

@@ -22,17 +22,15 @@ import { listByOwner } from "./shop-api";
 import DeleteShop from "./DeleteShop";
 
 const MyShops = props => {
-  const [state, setState] = useState({
-    shops: [],
-    redirect: false
-  });
+  const [shops, setShops] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   const jwt = auth.isAuthenticated();
 
   const loadShops = () => {
     listByOwner({ userId: jwt.user._id }, { t: jwt.token }).then(data => {
-      if (data.error) return setState({ ...state, redirect: true });
-      setState({ shops: data });
+      if (data.error) return setRedirect(true);
+      setShops(data);
     });
   };
 
@@ -41,15 +39,13 @@ const MyShops = props => {
   }, []);
 
   const removeShop = shop => {
-    const updatedShops = state.shops;
-    const index = updatedShops.indexOf(shop);
-    updatedShops.splice(index, 1);
-    setState({ ...state, shops: updatedShops });
+    const updatedShops = shops.filter(i => i._id !== shop._id);
+    setShops(updatedShops);
   };
 
   const { classes } = props;
 
-  if (state.redirect) return <Redirect to="/signin" />;
+  if (redirect) return <Redirect to="/signin" />;
 
   return (
     <div>
@@ -65,7 +61,7 @@ const MyShops = props => {
           </Link>
         </Grid>
         <List dense>
-          {state.shops.map((shop, index) => (
+          {shops.map((shop, index) => (
             <span key={index}>
               <ListItem button>
                 <ListItemAvatar>
@@ -90,7 +86,7 @@ const MyShops = props => {
                           View Orders
                         </Button>
                       </Link>
-                      <Link to={"/shops/edit/" + shop._id}>
+                      <Link to={"/seller/shops/edit/" + shop._id}>
                         <IconButton aria-label="Edit" color="primary">
                           <Edit />
                         </IconButton>

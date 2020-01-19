@@ -1,10 +1,13 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropsTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { Card, Typography, CardContent, CardMedia } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
-import seashellImg from "../assets/images/seashell.png";
-import { Link } from "react-router-dom";
+import Suggestions from "../product/Suggestions";
+import Search from "../product/Search";
+import auth from "../auth/auth-helper";
+import { listLatest, listCategories } from "../product/product-api";
+import Categories from "../product/Categories";
 
 const styles = theme => ({
   card: {
@@ -21,34 +24,43 @@ const styles = theme => ({
   }
 });
 
-@withStyles(styles)
-class Home extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Card className={classes.card}>
-          <Typography type="headline" component="h2" className={classes.title}>
-            Home Page
-          </Typography>
-          <CardMedia
-            className={classes.media}
-            image={seashellImg}
-            title="Unicorn Shells"
-          />
-          <CardContent>
-            <Typography type="body1" component="p">
-              Welcome to the mern Skeleton home page
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-}
+const Home = props => {
+  const [latestProducts, setLatestProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const jwt = auth.isAuthenticated;
+
+  useEffect(() => {
+    listLatest().then(data => {
+      if (data.error) return console.log(data);
+      setLatestProducts(data);
+    });
+
+    listCategories().then(data => {
+      if (data.error) return console.log(data.error);
+      setCategories(data);
+    });
+  }, []);
+  const { classes } = props;
+  return (
+    <div>
+      <Grid>
+        <Grid item xs={12}>
+          <Search categories={categories} />
+        </Grid>
+        <Grid item xs={12}>
+          <Categories categories={categories} />
+        </Grid>
+        <Grid item xs={12}>
+          <Suggestions products={latestProducts} title={"Latest Products"} />
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
 
 Home.propTypes = {
   classes: PropsTypes.object.isRequired
 };
 
-export default Home;
+export default withStyles(styles)(Home);

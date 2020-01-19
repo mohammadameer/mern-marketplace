@@ -5,11 +5,13 @@ import {
   Typography,
   IconButton,
   Button,
-  Grid
+  Grid,
+  Badge
 } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
-import { Home } from "@material-ui/icons";
+import { Home, ShoppingCart } from "@material-ui/icons";
 import auth from "../auth/auth-helper";
+import * as cart from "../cart/cart-helper";
 
 const Menu = () => {
   const history = useHistory();
@@ -33,6 +35,14 @@ const Menu = () => {
           </Link>
         </Grid>
         <Grid item>
+          <Link to="/cart">
+            <Button style={isActive("/cart")}>
+              Cart{" "}
+              <Badge color="accent" badgeContent={cart.itemTotal()}>
+                <ShoppingCart />
+              </Badge>
+            </Button>
+          </Link>
           {!auth.isAuthenticated() ? (
             <span>
               <Link to="/signup">
