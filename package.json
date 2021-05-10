@@ -62,7 +62,7 @@
     "gh-pages": "^2.1.1",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mongoose": "^5.8.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.10.1",
